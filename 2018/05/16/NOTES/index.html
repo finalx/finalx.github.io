@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Finalx&#39;s Space">
 <meta property="og:description" content="SYNC &amp;amp;&amp;amp; BUILDnewest APPs C51 e0001h  10.10.96.210:/work/build/workspace/PRJ_BJEV_6.0/packages/apps   C53 c3004h  10.10.96.219:/work/jenkins/workspace/PRJ_C3004H_6.0/packages/apps   x37 f0307h">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-15T01:38:55.317Z">
+<meta property="og:updated_time" content="2018-08-15T05:54:25.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NOTES">
 <meta name="twitter:description" content="SYNC &amp;amp;&amp;amp; BUILDnewest APPs C51 e0001h  10.10.96.210:/work/build/workspace/PRJ_BJEV_6.0/packages/apps   C53 c3004h  10.10.96.219:/work/jenkins/workspace/PRJ_C3004H_6.0/packages/apps   x37 f0307h">
@@ -383,6 +383,8 @@
 </ul>
 <hr>
 <h1 id="SPLIT-LOGS"><a href="#SPLIT-LOGS" class="headerlink" title="SPLIT LOGS"></a>SPLIT LOGS</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat $(ls logcat.log* | sort -r) | csplit - <span class="string">"/Vold 3.0 (the awakening) firing up/"</span> -n3 &#123;*&#125;  -f splited -b <span class="string">"%03d.log"</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="Flash-without-screen"><a href="#Flash-without-screen" class="headerlink" title="Flash without screen"></a>Flash without screen</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'--update_package=/udisk/update/update.zip'</span> &gt; /cache/recovery/<span class="built_in">command</span>; sleep 1; minirecovery 30; sleep 1; reboot</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -571,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SYNC-amp-amp-BUILD"><span class="nav-number">1.</span> <span class="nav-text">SYNC &amp;&amp; BUILD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#newest-APPs"><span class="nav-number">1.1.</span> <span class="nav-text">newest APPs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sync-codes"><span class="nav-number">1.2.</span> <span class="nav-text">Sync codes</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPLIT-LOGS"><span class="nav-number">2.</span> <span class="nav-text">SPLIT LOGS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SYNC-amp-amp-BUILD"><span class="nav-number">1.</span> <span class="nav-text">SYNC &amp;&amp; BUILD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#newest-APPs"><span class="nav-number">1.1.</span> <span class="nav-text">newest APPs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sync-codes"><span class="nav-number">1.2.</span> <span class="nav-text">Sync codes</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPLIT-LOGS"><span class="nav-number">2.</span> <span class="nav-text">SPLIT LOGS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flash-without-screen"><span class="nav-number">3.</span> <span class="nav-text">Flash without screen</span></a></li></ol></div>
             
 
           </div>
