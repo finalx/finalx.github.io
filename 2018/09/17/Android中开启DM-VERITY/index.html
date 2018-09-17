@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Security," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概述Android 4.4 及更高版本支持通过可选的 device-mapper-verity (dm-verity) 内核功能进行的验证启动，以便对块设备进行透明的完整性检查。 验证启动要求在使用前以加密形式验证要启动的 Android 版本包含的所有可执行代码和数据，其中包括内核（从 boot 分区加载）、设备树（从 dtbo 分区加载）、system 分区和 vendor 分区等。">
+<meta name="keywords" content="Android,Security">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中开启DM-VERITY">
+<meta property="og:url" content="http://yoursite.com/2018/09/17/Android中开启DM-VERITY/index.html">
+<meta property="og:site_name" content="Finalx&#39;s Space">
+<meta property="og:description" content="概述Android 4.4 及更高版本支持通过可选的 device-mapper-verity (dm-verity) 内核功能进行的验证启动，以便对块设备进行透明的完整性检查。 验证启动要求在使用前以加密形式验证要启动的 Android 版本包含的所有可执行代码和数据，其中包括内核（从 boot 分区加载）、设备树（从 dtbo 分区加载）、system 分区和 vendor 分区等。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-17T01:37:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中开启DM-VERITY">
+<meta name="twitter:description" content="概述Android 4.4 及更高版本支持通过可选的 device-mapper-verity (dm-verity) 内核功能进行的验证启动，以便对块设备进行透明的完整性检查。 验证启动要求在使用前以加密形式验证要启动的 Android 版本包含的所有可执行代码和数据，其中包括内核（从 boot 分区加载）、设备树（从 dtbo 分区加载）、system 分区和 vendor 分区等。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/17/Android中开启DM-VERITY/"/>
+
+
+
+
+
+  <title>Android中开启DM-VERITY | Finalx's Space</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Finalx's Space</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/Android中开启DM-VERITY/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="finalx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Finalx's Space">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android中开启DM-VERITY</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-17T09:37:48+08:00">
+                2018-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Security</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/17/Android中开启DM-VERITY/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/09/17/Android中开启DM-VERITY/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><strong>Android 4.4 及更高版本支持通过可选的 device-mapper-verity (dm-verity) 内核功能进行的验证启动，以便对块设备进行透明的完整性检查。</strong></p>
+<p>验证启动要求在使用前以加密形式验证要启动的 Android 版本包含的所有可执行代码和数据，其中包括内核（从 boot 分区加载）、设备树（从 dtbo 分区加载）、system 分区和 vendor 分区等。</p>
+<a id="more"></a>
+<p>仅读取一次的小分区（例如 boot 和 dtbo）通常是通过将整个内容加载到内存中，然后计算相应哈希值来进行验证的。接下来，系统会比较这个计算出的哈希值与预期哈希值。如果值不一致，则 Android(kernel) 将无法加载。如需了解详情，请参阅 <a href="https://source.android.com/security/verifiedboot/boot-flow" target="_blank" rel="noopener">启动流程</a> 。</p>
+<p>内存装不下的较大分区（如system文件系统）可以使用哈希树；此时，验证流程会在将数据加载到内存时持续进行。在这种情况下，系统会在运行时计算哈希树的根哈希值，并对照预期根哈希值进行检查。Android 包含用于验证较大分区的 dm-verity 驱动程序。如果在某个时间点计算出的根哈希值与预期根哈希值不一致，系统便不会使用相应数据，而且 Android 会出现错误。如需了解详情，请参阅 <a href="https://source.android.com/security/verifiedboot/boot-flow#dm-verity-corruption" target="_blank" rel="noopener">dm-verity 损坏</a> 。</p>
+<p>预期哈希值通常存储在每个经过验证的分区的末尾或开头、专用分区中，或同时位于以上两个位置。最重要的是，这些哈希值是由信任根以直接或间接的方式签名的。</p>
+<p>system等大分区是由kernel来验证的， 而kernel的验证是由bootloader来完成的， bootloader的验证又是由硬件来验证的(烧录了key的HW)。<br>本文只关心system分区的验证， 从原理上来说， 生成带hash/签名的system.img分为一下几个步骤：</p>
+<ul>
+<li>生成 EXT4 system.img。</li>
+<li>为system.img生成哈希树。</li>
+<li>为该哈希树构建 dm-verity 表。</li>
+<li>为该 dm-verity 表签名以生成表签名。</li>
+<li>将表签名和 dm-verity 表绑定到 Verity 元数据。</li>
+<li>将系统映像、Verity 元数据和哈希树组合起来。</li>
+</ul>
+<hr>
+<h1 id="概要设计"><a href="#概要设计" class="headerlink" title="概要设计"></a>概要设计</h1><p>本文基于Android 6.0</p>
+<hr>
+<h1 id="详细设计"><a href="#详细设计" class="headerlink" title="详细设计"></a>详细设计</h1><h2 id="步骤-原理-及-定制"><a href="#步骤-原理-及-定制" class="headerlink" title="步骤/原理 及 定制"></a>步骤/原理 及 定制</h2><hr>
+<p>AOSP build系统中已经全部实现， 以下仅作原理解释， 定制部分参考 <strong>其他</strong>部分</p>
+<h3 id="生成-EXT4-system-img"><a href="#生成-EXT4-system-img" class="headerlink" title="生成 EXT4 system.img"></a>生成 EXT4 system.img</h3><p>主控脚本： <code>build/tools/releasetools/build_image.py#BuildImage</code></p>
+<p>通过 <code>prop_dict</code> 属性，判断是否启用 verity 功能，启用的话，调整 system 分区大小，以便后面添加相关文件到 system.img 末尾，然后 RunCommand(build_command) 生成初始的 system.img。</p>
+<p><code>prop_dict</code> 文件路径：</p>
+<blockquote>
+<p>out/target/product/XXXX/obj/PACKAGING/systemimage_intermediates/system_image_info.txt</p>
+</blockquote>
+<hr>
+<h3 id="为system-img生成哈希树"><a href="#为system-img生成哈希树" class="headerlink" title="为system.img生成哈希树"></a>为system.img生成哈希树</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">build/tools/releasetools/build_image.py<span class="comment">#BuildVerityTree</span></span><br><span class="line"><span class="number">89</span> <span class="function"><span class="keyword">def</span> <span class="title">BuildVerityTree</span><span class="params">(sparse_image_path, verity_image_path, prop_dict)</span>:</span></span><br><span class="line"><span class="number">90</span>   cmd = <span class="string">"build_verity_tree -A %s %s %s"</span> % (</span><br><span class="line"><span class="number">91</span>       FIXED_SALT, sparse_image_path, verity_image_path)</span><br><span class="line"><span class="number">93</span>   status, output = commands.getstatusoutput(cmd)</span><br></pre></td></tr></table></figure>
+<p>转到： <code>system/extras/verity/build_verity_tree.cpp</code></p>
+<hr>
+<h3 id="为该哈希树构建-dm-verity-表"><a href="#为该哈希树构建-dm-verity-表" class="headerlink" title="为该哈希树构建 dm-verity 表"></a>为该哈希树构建 dm-verity 表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">build/tools/releasetools/build_image.py<span class="comment">#BuildVerityMetadata</span></span><br><span class="line"><span class="number">102</span> <span class="function"><span class="keyword">def</span> <span class="title">BuildVerityMetadata</span><span class="params">(image_size, verity_metadata_path, root_hash, salt,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">103</span>                         block_device, signer_path, key)</span>:</span></span><br><span class="line"><span class="number">104</span>   cmd_template = (</span><br><span class="line"><span class="number">105</span>       <span class="string">"system/extras/verity/build_verity_metadata.py %s %s %s %s %s %s %s"</span>)</span><br><span class="line"><span class="number">106</span>   cmd = cmd_template % (image_size, verity_metadata_path, root_hash, salt,</span><br><span class="line"><span class="number">107</span>                         block_device, signer_path, key)</span><br><span class="line"><span class="number">109</span>   status, output = commands.getstatusoutput(cmd)</span><br></pre></td></tr></table></figure>
+<p>转到 <code>system/extras/verity/build_verity_metadata.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">system/extras/verity/build_verity_metadata.py</span><br><span class="line"><span class="number">40</span> <span class="function"><span class="keyword">def</span> <span class="title">build_verity_table</span><span class="params">(block_device, data_blocks, root_hash, salt)</span>:</span></span><br><span class="line"><span class="number">41</span>     table = <span class="string">"1 %s %s %s %s %s %s sha256 %s %s"</span></span><br><span class="line"><span class="number">42</span>     table %= (  block_device, block_device, BLOCK_SIZE, BLOCK_SIZE, data_blocks,</span><br><span class="line"><span class="number">47</span>                 data_blocks + (METADATA_SIZE / BLOCK_SIZE), root_hash, salt)</span><br><span class="line"><span class="number">50</span>     <span class="keyword">return</span> table</span><br></pre></td></tr></table></figure>
+<p>可见 <strong>dm-verity 表</strong> 其实就是包含了<strong>root hash</strong>和<strong>FIXED_SALT</strong>的一行字符串</p>
+<hr>
+<h3 id="为该-dm-verity-表签名以生成表签名"><a href="#为该-dm-verity-表签名以生成表签名" class="headerlink" title="为该 dm-verity 表签名以生成表签名"></a>为该 dm-verity 表签名以生成表签名</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">system/extras/verity/build_verity_metadata.py</span><br><span class="line"><span class="number">30</span> <span class="function"><span class="keyword">def</span> <span class="title">sign_verity_table</span><span class="params">(table, signer_path, key_path)</span>:</span></span><br><span class="line"><span class="number">31</span>     <span class="keyword">with</span> tempfile.NamedTemporaryFile(suffix=<span class="string">'.table'</span>) <span class="keyword">as</span> table_file:</span><br><span class="line"><span class="number">32</span>         <span class="keyword">with</span> tempfile.NamedTemporaryFile(suffix=<span class="string">'.sig'</span>) <span class="keyword">as</span> signature_file:</span><br><span class="line"><span class="number">33</span>             table_file.write(table)</span><br><span class="line"><span class="number">34</span>             table_file.flush()</span><br><span class="line"><span class="number">35</span>             cmd = <span class="string">" "</span>.join((signer_path, table_file.name, key_path, signature_file.name))</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="将表签名和-dm-verity-表绑定到-Verity-元数据"><a href="#将表签名和-dm-verity-表绑定到-Verity-元数据" class="headerlink" title="将表签名和 dm-verity 表绑定到 Verity 元数据"></a>将表签名和 dm-verity 表绑定到 Verity 元数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">system/extras/verity/build_verity_metadata.py</span><br><span class="line"><span class="number">23</span> <span class="function"><span class="keyword">def</span> <span class="title">build_metadata_block</span><span class="params">(verity_table, signature)</span>:</span></span><br><span class="line"><span class="number">24</span>     table_len = len(verity_table)</span><br><span class="line"><span class="number">25</span>     block = struct.pack(<span class="string">"II256sI"</span>, MAGIC_NUMBER, VERSION, signature, table_len)</span><br><span class="line"><span class="number">26</span>     block += verity_table</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="将系统映像、Verity-元数据和哈希树组合起来"><a href="#将系统映像、Verity-元数据和哈希树组合起来" class="headerlink" title="将系统映像、Verity 元数据和哈希树组合起来"></a>将系统映像、Verity 元数据和哈希树组合起来</h3><p>回到 <code>build/tools/releasetools/build_image.py</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">133</span> <span class="function"><span class="keyword">def</span> <span class="title">BuildVerifiedImage</span><span class="params">(data_image_path, verity_image_path,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">134</span>                        verity_metadata_path)</span>:</span></span><br><span class="line"><span class="number">135</span>   <span class="keyword">if</span> <span class="keyword">not</span> Append2Simg(data_image_path, verity_metadata_path,</span><br><span class="line"><span class="number">136</span>                      <span class="string">"Could not append verity metadata!"</span>): <span class="comment">#附上 dm-verity 表</span></span><br><span class="line"><span class="number">137</span>     <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"><span class="number">138</span>   <span class="keyword">if</span> <span class="keyword">not</span> Append2Simg(data_image_path, verity_image_path,</span><br><span class="line"><span class="number">139</span>                      <span class="string">"Could not append verity tree!"</span>): <span class="comment">#附上 hash tree</span></span><br><span class="line"><span class="number">140</span>     <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"><span class="number">141</span>   <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure></p>
+<p>通过<code>Append2Simg</code>, 包含hash tree 和 verity table的system.img就生成了。<br>如果是全局执行的make， 那么boot.img也已经生成了， 而用于验签system.img的pub key就位于boot image的 /verity_key 文件。</p>
+<hr>
+<h3 id="其他（定制部分）"><a href="#其他（定制部分）" class="headerlink" title="其他（定制部分）"></a>其他（定制部分）</h3><h4 id="定制-FIXED-SALT"><a href="#定制-FIXED-SALT" class="headerlink" title="定制 FIXED_SALT"></a>定制 FIXED_SALT</h4><p>用于生成<strong>hash tree</strong>时加的盐， 位于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build/tools/releasetools/build_image.py</span><br></pre></td></tr></table></figure></p>
+<p>make 输出的结尾可以看到这个盐的值：</p>
+<blockquote>
+<p>build_verity_tree -A 000087a5be3b982978c923f566a94613496b417f2af592639bc80d141e340000 out/target/product/XXX/obj/PACKAGING/systemimage_intermediates/system.img /tmp/tmptTpmT7_verity_images/verity.img</p>
+</blockquote>
+<h4 id="定制-keys"><a href="#定制-keys" class="headerlink" title="定制 keys"></a>定制 keys</h4><ul>
+<li><p>首先确定openssl 已经安装:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl version</span><br><span class="line">OpenSSL 1.0.1f 6 Jan 2014</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成key pair:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ development/tools/make_key mykey <span class="string">'/C=CN/ST=NanJing/L=XinJieKou/O=MyCompany/OU=MyCompany/CN=MyCompany/emailAddress=Finalx@MyCompany.com.cn'</span></span><br><span class="line"></span><br><span class="line">&gt; 成果物：</span><br><span class="line">&gt; mykey.pk8        mykey.x509.pem</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从生成的 mykey.x509.pem 中解出public key:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mmm system/extras/verity/ <span class="comment">#build出来 generate_verity_key</span></span><br><span class="line">$ out/host/linux-x86/bin/generate_verity_key -convert mykey.x509.pem verity_key</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将pub key, private key, CA copy到 <code>build/target/product/security</code> 以便后续make/build_image.py使用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cp -v ./mykey.pk8     xxx/build/target/product/security/verity.pk8  <span class="comment">#私钥， build image 时用于sign</span></span><br><span class="line">$ cp -v ./verity_key.pub xxx/build/target/product/security/verity_key <span class="comment">#公钥， 会被build 到ramdisk里用于开机时验签</span></span><br><span class="line">$ cp -v ./mykey.x509.pem xxx/build/target/product/security/verity.x509.pem <span class="comment"># 证书, generate_verity_key从此中解出pub key</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="使能"><a href="#使能" class="headerlink" title="使能"></a>使能</h2><h3 id="分区使能"><a href="#分区使能" class="headerlink" title="分区使能"></a>分区使能</h3><h4 id="修改fstab"><a href="#修改fstab" class="headerlink" title="修改fstab"></a>修改fstab</h4><p>需要在 <strong>fstab</strong> 中的<em>fs_mgr_flags</em>增加verity flag：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Android fstab file.</span></span><br><span class="line"><span class="comment">#&lt;src&gt;  &lt;mnt_point&gt;  &lt;type&gt;   &lt;mnt_flags and options&gt;   &lt;fs_mgr_flags&gt;</span></span><br><span class="line">/dev/block/mmcblk2p2   /system    ext4 ro,barrier=1                               <span class="built_in">wait</span>,verify</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="修改verity-data的mount-point"><a href="#修改verity-data的mount-point" class="headerlink" title="修改verity data的mount point"></a>修改verity data的mount point</h4><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> # setup dm-verity configs.</span><br><span class="line"> ifneq ($(BUILD_TARGET_DEVICE),sd)</span><br><span class="line"><span class="deletion">- PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/mmcblk3p5</span></span><br><span class="line"><span class="addition">+ PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/mmcblk2p2</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Kernel-使能"><a href="#Kernel-使能" class="headerlink" title="Kernel 使能"></a>Kernel 使能</h3><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/arch/arm/configs/imx_v7_x37_android_defconfig b/arch/arm/configs/imx_v7_x37_android_defconfig</span><br><span class="line">index 05270584dec2..475566bd5da9 100644</span><br><span class="line"><span class="comment">--- a/arch/arm/configs/imx_v7_x37_android_defconfig</span></span><br><span class="line"><span class="comment">+++ b/arch/arm/configs/imx_v7_x37_android_defconfig</span></span><br><span class="line">@@ -1376,11 +1376,11 @@ CONFIG_MD=y</span><br><span class="line"> # CONFIG_BLK_DEV_MD is not set</span><br><span class="line"> # CONFIG_BCACHE is not set</span><br><span class="line"> CONFIG_BLK_DEV_DM_BUILTIN=y</span><br><span class="line"><span class="deletion">-CONFIG_BLK_DEV_DM=m</span></span><br><span class="line"><span class="addition">+CONFIG_BLK_DEV_DM=y</span></span><br><span class="line"> # CONFIG_DM_MQ_DEFAULT is not set</span><br><span class="line"> # CONFIG_DM_DEBUG is not set</span><br><span class="line"><span class="deletion">-CONFIG_DM_BUFIO=m</span></span><br><span class="line"><span class="deletion">-CONFIG_DM_CRYPT=m</span></span><br><span class="line"><span class="addition">+CONFIG_DM_BUFIO=y</span></span><br><span class="line"><span class="addition">+CONFIG_DM_CRYPT=y</span></span><br><span class="line"> # CONFIG_DM_SNAPSHOT is not set</span><br><span class="line"> # CONFIG_DM_THIN_PROVISIONING is not set</span><br><span class="line"> # CONFIG_DM_CACHE is not set</span><br><span class="line">@@ -1392,7 +1392,7 @@ CONFIG_DM_CRYPT=m</span><br><span class="line"> # CONFIG_DM_DELAY is not set</span><br><span class="line"> CONFIG_DM_UEVENT=y</span><br><span class="line"> # CONFIG_DM_FLAKEY is not set</span><br><span class="line"><span class="deletion">-CONFIG_DM_VERITY=m</span></span><br><span class="line"><span class="addition">+CONFIG_DM_VERITY=y</span></span><br><span class="line"> # CONFIG_DM_SWITCH is not set</span><br><span class="line"> # CONFIG_DM_LOG_WRITES is not set</span><br><span class="line"> # CONFIG_TARGET_CORE is not set</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="切换到基于块（默认是基于文件）的OTA"><a href="#切换到基于块（默认是基于文件）的OTA" class="headerlink" title="切换到基于块（默认是基于文件）的OTA"></a>切换到基于块（默认是基于文件）的OTA</h3><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/core/Makefile b/core/Makefile</span><br><span class="line">index 99444342c..731a2270b 100644</span><br><span class="line"><span class="comment">--- a/core/Makefile</span></span><br><span class="line"><span class="comment">+++ b/core/Makefile</span></span><br><span class="line">@@ -2000,7 +2000,7 @@ ota_name := update-$(ota_name)</span><br><span class="line"> </span><br><span class="line"> block_file := </span><br><span class="line"> ifneq ($(TARGET_USERIMAGES_USE_UBIFS),true)</span><br><span class="line"><span class="deletion">-#block_file := --block</span></span><br><span class="line"><span class="addition">+  block_file := --block</span></span><br><span class="line"> endif</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><ul>
+<li><p>如果<strong>boot.img</strong>中的<em>/verity_key</em>和build<strong>system.img</strong>时使用的<em>verity.pk8</em>不匹配，无法boot, 串口输出：</p>
+<blockquote>
+<p>[    1.163454] bootwatch: Current version: 3.1.4.20180908112541.rc1.f0307h<br>[    1.181602] init:acc_status = 1<br>[    1.184756] init:wakesrc = 0x0<br>[    1.497576] fs_mgr: Couldn’t verify table.fs_mgr: Enabling dm-verity for system (mode 0)<br>[    1.512108] device-mapper: verity: 179:2: metadata block 634959 is corrupted<br>[    1.519796] EXT4-fs (dm-0): unable to read superblock<br>[    1.525896] device-mapper: verity: 179:2: metadata block 634959 is corrupted<br>[    1.534057] device-mapper: verity: 179:2: metadata block 634959 is corrupted<br>[    1.541641] Buffer I/O error on dev dm-0, logical block 0, async page read<br>[    1.548696] fs_mgr: Failed to mount an un-encryptable or wiped partition on/dev/block/dm-0 at /system options: barrier=1 error: Invalid argument<br>[    2.281519] init: fs_mgr_mount_all returned an error</p>
+</blockquote>
+</li>
+<li><p>在获得了<strong>root</strong>权限的情况下， 即使remount成功， <strong>system.img</strong>也无法被修改</p>
+</li>
+</ul>
+<hr>
+<h1 id="Known-Issue-x37"><a href="#Known-Issue-x37" class="headerlink" title="Known Issue(x37)"></a>Known Issue(x37)</h1><p><code>$ adb disable-verity</code> 之后无法boot</p>
+<blockquote>
+<p>[    1.500791] fs_mgr: Couldn’t find verity metadata at offset 2600759296!<br>[    1.507880] fs_mgr: Could not set up verified partition, skipping!<br>[    1.701514] init: mount_all ret-0.</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Security/" rel="tag"># Security</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/18/Rename-By-Metadata-of-Photos-Videos-Files/" rel="next" title="Rename By Metadata of Photos/Videos Files">
+                <i class="fa fa-chevron-left"></i> Rename By Metadata of Photos/Videos Files
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="finalx" />
+            
+              <p class="site-author-name" itemprop="name">finalx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概要设计"><span class="nav-number">2.</span> <span class="nav-text">概要设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#详细设计"><span class="nav-number">3.</span> <span class="nav-text">详细设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤-原理-及-定制"><span class="nav-number">3.1.</span> <span class="nav-text">步骤/原理 及 定制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-EXT4-system-img"><span class="nav-number">3.1.1.</span> <span class="nav-text">生成 EXT4 system.img</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为system-img生成哈希树"><span class="nav-number">3.1.2.</span> <span class="nav-text">为system.img生成哈希树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为该哈希树构建-dm-verity-表"><span class="nav-number">3.1.3.</span> <span class="nav-text">为该哈希树构建 dm-verity 表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为该-dm-verity-表签名以生成表签名"><span class="nav-number">3.1.4.</span> <span class="nav-text">为该 dm-verity 表签名以生成表签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将表签名和-dm-verity-表绑定到-Verity-元数据"><span class="nav-number">3.1.5.</span> <span class="nav-text">将表签名和 dm-verity 表绑定到 Verity 元数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将系统映像、Verity-元数据和哈希树组合起来"><span class="nav-number">3.1.6.</span> <span class="nav-text">将系统映像、Verity 元数据和哈希树组合起来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他（定制部分）"><span class="nav-number">3.1.7.</span> <span class="nav-text">其他（定制部分）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定制-FIXED-SALT"><span class="nav-number">3.1.7.1.</span> <span class="nav-text">定制 FIXED_SALT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定制-keys"><span class="nav-number">3.1.7.2.</span> <span class="nav-text">定制 keys</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使能"><span class="nav-number">3.2.</span> <span class="nav-text">使能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分区使能"><span class="nav-number">3.2.1.</span> <span class="nav-text">分区使能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改fstab"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">修改fstab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改verity-data的mount-point"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">修改verity data的mount point</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kernel-使能"><span class="nav-number">3.2.2.</span> <span class="nav-text">Kernel 使能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换到基于块（默认是基于文件）的OTA"><span class="nav-number">3.2.3.</span> <span class="nav-text">切换到基于块（默认是基于文件）的OTA</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#验证"><span class="nav-number">4.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Known-Issue-x37"><span class="nav-number">5.</span> <span class="nav-text">Known Issue(x37)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">finalx</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://finalx.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/09/17/Android中开启DM-VERITY/';
+          this.page.identifier = '2018/09/17/Android中开启DM-VERITY/';
+          this.page.title = 'Android中开启DM-VERITY';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://finalx.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
