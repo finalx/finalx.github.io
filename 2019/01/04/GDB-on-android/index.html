@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Wms,Ams," />
+  <meta name="keywords" content="Android,C++," />
 
 
 
@@ -79,22 +79,18 @@
 
 
 
-<meta name="description" content="终于搞定了java的scope追踪  Android 6.0.1 aosp(nexus 5)只能找到这个设备=.= 最高支持到6.0 木的办法  分析场景开机后从launcher界面打开calculator应用  分析目标ams, wms, app 框架的流程  分析成果log &amp;amp;&amp;amp; scope: aosp.launch.calculator.from.home.zip  log:">
-<meta name="keywords" content="Wms,Ams">
+<meta name="description" content="GNU 项目调试程序 (GDB) 是常用的 Unix 调试程序。本页详细介绍了如何使用 gdb 调试 Android 应用和进程（面向平台开发者）。对于第三方应用开发，请参阅调试您的应用">
+<meta name="keywords" content="Android,C++">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WMS_AMS">
-<meta property="og:url" content="http://yoursite.com/2017/09/21/WMS-AMS/index.html">
+<meta property="og:title" content="GDB on android">
+<meta property="og:url" content="http://yoursite.com/2019/01/04/GDB-on-android/index.html">
 <meta property="og:site_name" content="Finalx&#39;s Space">
-<meta property="og:description" content="终于搞定了java的scope追踪  Android 6.0.1 aosp(nexus 5)只能找到这个设备=.= 最高支持到6.0 木的办法  分析场景开机后从launcher界面打开calculator应用  分析目标ams, wms, app 框架的流程  分析成果log &amp;amp;&amp;amp; scope: aosp.launch.calculator.from.home.zip  log:">
+<meta property="og:description" content="GNU 项目调试程序 (GDB) 是常用的 Unix 调试程序。本页详细介绍了如何使用 gdb 调试 Android 应用和进程（面向平台开发者）。对于第三方应用开发，请参阅调试您的应用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/09/21/WMS-AMS/scope.startu0.png">
-<meta property="og:image" content="http://yoursite.com/2017/09/21/WMS-AMS/seq_ams.0.png">
-<meta property="og:image" content="http://yoursite.com/2017/09/21/WMS-AMS/seq_app_wms.0.png">
-<meta property="og:updated_time" content="2017-12-15T02:33:36.000Z">
+<meta property="og:updated_time" content="2019-01-04T02:26:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WMS_AMS">
-<meta name="twitter:description" content="终于搞定了java的scope追踪  Android 6.0.1 aosp(nexus 5)只能找到这个设备=.= 最高支持到6.0 木的办法  分析场景开机后从launcher界面打开calculator应用  分析目标ams, wms, app 框架的流程  分析成果log &amp;amp;&amp;amp; scope: aosp.launch.calculator.from.home.zip  log:">
-<meta name="twitter:image" content="http://yoursite.com/2017/09/21/WMS-AMS/scope.startu0.png">
+<meta name="twitter:title" content="GDB on android">
+<meta name="twitter:description" content="GNU 项目调试程序 (GDB) 是常用的 Unix 调试程序。本页详细介绍了如何使用 gdb 调试 Android 应用和进程（面向平台开发者）。对于第三方应用开发，请参阅调试您的应用">
 
 
 
@@ -124,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/21/WMS-AMS/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/01/04/GDB-on-android/"/>
 
 
 
 
 
-  <title>WMS_AMS | Finalx's Space</title>
+  <title>GDB on android | Finalx's Space</title>
   
 
 
@@ -277,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/21/WMS-AMS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/04/GDB-on-android/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="finalx">
@@ -294,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">WMS_AMS</h1>
+          <h1 class="post-title" itemprop="name headline">GDB on android</h1>
         
 
         <div class="post-meta">
@@ -306,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-21T13:46:46+08:00">
-                2017-09-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-04T10:26:11+08:00">
+                2019-01-04
               </time>
             
 
@@ -329,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
                   </a>
                 </span>
 
@@ -340,8 +336,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Apf/" itemprop="url" rel="index">
-                    <span itemprop="name">Apf</span>
+                  <a href="/categories/Programing/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -358,9 +354,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/21/WMS-AMS/#comments" itemprop="discussionUrl">
+                <a href="/2019/01/04/GDB-on-android/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/21/WMS-AMS/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/01/04/GDB-on-android/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -388,32 +384,57 @@
       
 
       
-        <p>终于搞定了java的scope追踪</p>
-<hr>
-<h1 id="Android-6-0-1-aosp-nexus-5"><a href="#Android-6-0-1-aosp-nexus-5" class="headerlink" title="Android 6.0.1 aosp(nexus 5)"></a>Android 6.0.1 aosp(nexus 5)</h1><p>只能找到这个设备=.= 最高支持到6.0 木的办法</p>
-<ul>
-<li><p>分析场景<br>开机后从launcher界面打开calculator应用</p>
-</li>
-<li><p>分析目标<br>ams, wms, app 框架的流程</p>
-</li>
-<li><p>分析成果<br>log &amp;&amp; scope: <a href="aosp.launch.calculator.from.home.zip">aosp.launch.calculator.from.home.zip</a></p>
-<ul>
-<li><p>log:</p>
-<blockquote>
-<p>10-31 22:43:05.803   614  1080 I ActivityStackSupervisor: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.android.calculator2/.Calculator ….</p>
-</blockquote>
-</li>
-<li><p>scope:<br>22:43:05.803 时thread 614  1080的运行情况:</p>
-<img src="/2017/09/21/WMS-AMS/scope.startu0.png">
-</li>
-</ul>
-</li>
-</ul>
+        <p>GNU 项目调试程序 (GDB) 是常用的 Unix 调试程序。本页详细介绍了如何使用 gdb 调试 Android 应用和进程（面向平台开发者）。对于第三方应用开发，请参阅<a href="https://developer.android.com/studio/debug/" target="_blank" rel="noopener">调试您的应用</a></p>
 <a id="more"></a>
+<h1 id="搜罗的-native-限定？"><a href="#搜罗的-native-限定？" class="headerlink" title="搜罗的(native 限定？)"></a>搜罗的(native 限定？)</h1><p><em>需要注意的是gdbserver和gdb的版本要匹配，否则会出错</em>, 所以都用NDK提供的即可</p>
+<h2 id="对于已经在run的process"><a href="#对于已经在run的process" class="headerlink" title="对于已经在run的process"></a>对于已经在run的process</h2><ol>
+<li><p>推<strong>gdbserver</strong>到target device</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb push <span class="variable">$ANDROID_NDK</span>/prebuilt/<span class="variable">$ARCH</span>/gdbserver/gdbserver /data/<span class="built_in">local</span>/tmp/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>attach <strong>gdbserver</strong>到target process</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxx$ /data/<span class="built_in">local</span>/tmp/gdbserver :1234 --attach 18440 </span><br><span class="line">Attached; pid = 18440</span><br><span class="line">Listening on port 1234</span><br></pre></td></tr></table></figure>
+<p> 表示<strong>gdbserver</strong>已经attach到进程18440上了，在tcp端口1234上监听，<strong>gdb</strong>这边只要也连上1234这个端口就可以了</p>
+</li>
+<li><p>forward target device的1234到PC的4321上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:4321 tcp:1234</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用<strong>gdb</strong>连接到4321即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ANDROID_NDK</span>/prebuilt/linux-x86_64/bin/gdb</span><br><span class="line">...</span><br><span class="line">(gdb) target remote localhost:4321</span><br><span class="line">Remote debugging using localhost:4321</span><br><span class="line">0x40011384 <span class="keyword">in</span> ?? ()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>搞定</p>
 <hr>
-<h1 id="Android-7-0-nogut"><a href="#Android-7-0-nogut" class="headerlink" title="Android 7.0 nogut"></a>Android 7.0 nogut</h1><p>根据code画了两个图, 非运行时的stack, so 仅供参考~~</p>
-<h2 id="AMS"><a href="#AMS" class="headerlink" title="AMS"></a>AMS</h2><img src="/2017/09/21/WMS-AMS/seq_ams.0.png" title="image for seq_ams">
-<h2 id="WMS"><a href="#WMS" class="headerlink" title="WMS"></a>WMS</h2><img src="/2017/09/21/WMS-AMS/seq_app_wms.0.png" title="image for seq_app_wms">
+<h1 id="Android-developer介绍的"><a href="#Android-developer介绍的" class="headerlink" title="Android developer介绍的"></a>Android developer介绍的</h1><p>reference: <a href="https://source.android.com/devices/tech/debug/gdb" target="_blank" rel="noopener">https://source.android.com/devices/tech/debug/gdb</a></p>
+<ul>
+<li>条件：android source GOT</li>
+</ul>
+<p>##调试运行中的应用或进程<br>要连接到已在运行的应用或本机守护进程，请配合使用 gdbclient.py 和 PID。例如，要调试 PID 为 1234 的进程，请运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ANDROID_SRC_ROOT</span>/development/scripts/gdbclient.py -p 1234</span><br></pre></td></tr></table></figure></p>
+<p>此脚本会设置端口转发，在设备上启动相应的 gdbserver，在主机上启动相应的 gdb，配置 gdb 以找出符号，然后将 gdb 连接到远程 gdbserver。</p>
+<pre><code>* 注意：在 Android 6 及更低版本中，该脚本是一个名为 gdbclient 的 Shell 脚本，而不是名为 gdbclient.py 的 Python 脚本。 *
+</code></pre><h2 id="调试本机进程启动"><a href="#调试本机进程启动" class="headerlink" title="调试本机进程启动"></a>调试本机进程启动</h2><p>要在进程启动时对其进行调试，请使用 gdbserver 或 gdbserver64。<br>对于 64 位可执行文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell gdbserver64 :5039 /system/bin/MY_TEST_64_BIT_APP</span><br></pre></td></tr></table></figure></p>
+<p>对于 32 位可执行文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell gdbserver :5039 /system/bin/MY_TEST_32_BIT_APP</span><br></pre></td></tr></table></figure></p>
+<p>输出示例：</p>
+<pre><code>Process MY_TEST_64_BIT_APP created; pid = 3460
+Listening on port 5039
+</code></pre><p>接着，从 gdbserver 输出内容中找到应用 PID，并在另一个终端窗口中使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdbclient.py -p APP_PID</span><br></pre></td></tr></table></figure>
+<p>最后，在 gdb 提示处输入 continue。</p>
+<pre><code>注意：如果您指定了错误的 gdbserver，将会收到没任何帮助的错误消息（例如“Reply contains invalid hex digit 59”）。
+</code></pre><h2 id="调试应用启动"><a href="#调试应用启动" class="headerlink" title="调试应用启动"></a>调试应用启动</h2><p>有时，您需要在应用启动时对其进行调试；例如在应用发生崩溃时，您需要逐步检查代码，以查看崩溃之前发生的情况。 附加调试程序有时能解决问题，有时不能解决问题，因为应用可能会在您可以附加调试程序之前崩溃。<em>logwrapper</em> 方法（用于 <em>strace</em> 和 <em>valgrind</em>）不一定能解决所有的问题，因为应用可能没有权限打开端口，而 gdbserver 会继承这项限制。</p>
+<p>要调试应用启动，请使用“设置”中的开发者选项，指示应用等待附加 Java 调试程序：</p>
+<ol>
+<li>依次转到“设置”&gt;“开发者选项”&gt;“选择调试应用”，并从列表中选择您的应用，然后按<strong>等待调试程序</strong>。</li>
+<li><p>启动应用，您可以从启动器启动，也可以在命令行中运行以下命令来启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell am start -a android.intent.action.MAIN -n APP_NAME/.APP_ACTIVITY</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待应用加载，然后等待系统显示一个对话框提示您应用正在等待附加调试程序。</p>
+</li>
+<li>正常附加 <em>gdbserver/gdbclient</em>，设置断点，然后继续运行该进程。</li>
+</ol>
+<p>要让应用实际运行，请附加 Java 调试网络协议 (JDWP) 调试程序，例如 Java 调试程序 (jdb)：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:12345 jdwp:XXX  <span class="comment"># (Where XXX is the pid of the debugged process.)</span></span><br><span class="line">jdb -attach localhost:12345</span><br></pre></td></tr></table></figure></p>
+<h2 id="调试崩溃的应用或进程"><a href="#调试崩溃的应用或进程" class="headerlink" title="调试崩溃的应用或进程"></a>调试崩溃的应用或进程</h2><p>如果您希望 <em>debuggerd</em> 暂停崩溃的进程，以便您可以附加 <em>gdb</em>，请设置相应的属性：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Android 7.0 Nougat and later.</span></span><br><span class="line">adb shell setprop debug.debuggerd.wait_for_gdb <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Android 6.0 Marshmallow and earlier.</span></span><br><span class="line">adb shell setprop debug.db.uid 999999</span><br></pre></td></tr></table></figure></p>
+<p>在寻常崩溃输出的结尾处，debuggerd 会提供有关如何使用以下命令来连接 gdb 的说明：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdbclient.py -p PID</span><br></pre></td></tr></table></figure></p>
+<h2 id="无符号调试"><a href="#无符号调试" class="headerlink" title="无符号调试"></a>无符号调试</h2><p>对于 32 位 ARM，如果您的指令中没有符号，<em>gdb</em> 就不清楚自己正在反汇编哪个指令集（ARM 或 Thumb）。要指定缺少符号信息时选用的默认指令集，请设置以下属性：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> arm fallback-mode arm  <span class="comment"># or thumb</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -431,9 +452,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Wms/" rel="tag"># Wms</a>
+            <a href="/tags/Android/" rel="tag"># Android</a>
           
-            <a href="/tags/Ams/" rel="tag"># Ams</a>
+            <a href="/tags/C/" rel="tag"># C++</a>
           
         </div>
       
@@ -446,8 +467,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/12/12306抢票js/" rel="next" title="12306抢票js">
-                <i class="fa fa-chevron-left"></i> 12306抢票js
+              <a href="/2018/09/17/Android中开启DM-VERITY/" rel="next" title="Android中开启DM-VERITY">
+                <i class="fa fa-chevron-left"></i> Android中开启DM-VERITY
               </a>
             
           </div>
@@ -455,10 +476,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/29/Install-JDK1-8-Tomcat8-Opengrok-for-Ubuntu-14-04/" rel="prev" title="Install JDK1.8/Tomcat8/Opengrok for Ubuntu 14.04">
-                Install JDK1.8/Tomcat8/Opengrok for Ubuntu 14.04 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -604,7 +621,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-6-0-1-aosp-nexus-5"><span class="nav-number">1.</span> <span class="nav-text">Android 6.0.1 aosp(nexus 5)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-7-0-nogut"><span class="nav-number">2.</span> <span class="nav-text">Android 7.0 nogut</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AMS"><span class="nav-number">2.1.</span> <span class="nav-text">AMS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WMS"><span class="nav-number">2.2.</span> <span class="nav-text">WMS</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#搜罗的-native-限定？"><span class="nav-number">1.</span> <span class="nav-text">搜罗的(native 限定？)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对于已经在run的process"><span class="nav-number">1.1.</span> <span class="nav-text">对于已经在run的process</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-developer介绍的"><span class="nav-number">2.</span> <span class="nav-text">Android developer介绍的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#调试本机进程启动"><span class="nav-number">2.1.</span> <span class="nav-text">调试本机进程启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试应用启动"><span class="nav-number">2.2.</span> <span class="nav-text">调试应用启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试崩溃的应用或进程"><span class="nav-number">2.3.</span> <span class="nav-text">调试崩溃的应用或进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号调试"><span class="nav-number">2.4.</span> <span class="nav-text">无符号调试</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -770,9 +787,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/09/21/WMS-AMS/';
-          this.page.identifier = '2017/09/21/WMS-AMS/';
-          this.page.title = 'WMS_AMS';
+          this.page.url = 'http://yoursite.com/2019/01/04/GDB-on-android/';
+          this.page.identifier = '2019/01/04/GDB-on-android/';
+          this.page.title = 'GDB on android';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://finalx.disqus.com/embed.js';
