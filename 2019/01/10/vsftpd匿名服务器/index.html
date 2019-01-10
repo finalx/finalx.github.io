@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="test," />
+  <meta name="keywords" content="Ubuntu,vsftpd," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="SYNC &amp;amp;&amp;amp; BUILDnewest APPs C51 e0001h  10.10.96.210:/work/build/workspace/PRJ_BJEV_6.0/packages/apps   C53 c3004h  10.10.96.219:/work/jenkins/workspace/PRJ_C3004H_6.0/packages/apps   x37 f0307h">
-<meta name="keywords" content="test">
+<meta name="description" content="匿名用户就是ftp，想要匿名用户写入，必须文件夹的权限为ftp可写。 匿名用户的根目录不允许写，所以根目录的权限绝对不能是ftp可写和其他用户可写，如果根目录所有者为ftp的话，所有者的权限也不能写。  所以解决方法是建个单独的public文件夹用于上传文件，设置其为ftp可写或”其他用户可写“ 还可建个download文件夹只用于下载，设置其他用户没有写权限便可。">
+<meta name="keywords" content="Ubuntu,vsftpd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NOTES">
-<meta property="og:url" content="http://yoursite.com/2018/05/16/NOTES/index.html">
+<meta property="og:title" content="vsftpd匿名服务器">
+<meta property="og:url" content="http://yoursite.com/2019/01/10/vsftpd匿名服务器/index.html">
 <meta property="og:site_name" content="Finalx&#39;s Space">
-<meta property="og:description" content="SYNC &amp;amp;&amp;amp; BUILDnewest APPs C51 e0001h  10.10.96.210:/work/build/workspace/PRJ_BJEV_6.0/packages/apps   C53 c3004h  10.10.96.219:/work/jenkins/workspace/PRJ_C3004H_6.0/packages/apps   x37 f0307h">
+<meta property="og:description" content="匿名用户就是ftp，想要匿名用户写入，必须文件夹的权限为ftp可写。 匿名用户的根目录不允许写，所以根目录的权限绝对不能是ftp可写和其他用户可写，如果根目录所有者为ftp的话，所有者的权限也不能写。  所以解决方法是建个单独的public文件夹用于上传文件，设置其为ftp可写或”其他用户可写“ 还可建个download文件夹只用于下载，设置其他用户没有写权限便可。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-15T05:54:25.992Z">
+<meta property="og:updated_time" content="2019-01-10T02:39:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NOTES">
-<meta name="twitter:description" content="SYNC &amp;amp;&amp;amp; BUILDnewest APPs C51 e0001h  10.10.96.210:/work/build/workspace/PRJ_BJEV_6.0/packages/apps   C53 c3004h  10.10.96.219:/work/jenkins/workspace/PRJ_C3004H_6.0/packages/apps   x37 f0307h">
+<meta name="twitter:title" content="vsftpd匿名服务器">
+<meta name="twitter:description" content="匿名用户就是ftp，想要匿名用户写入，必须文件夹的权限为ftp可写。 匿名用户的根目录不允许写，所以根目录的权限绝对不能是ftp可写和其他用户可写，如果根目录所有者为ftp的话，所有者的权限也不能写。  所以解决方法是建个单独的public文件夹用于上传文件，设置其为ftp可写或”其他用户可写“ 还可建个download文件夹只用于下载，设置其他用户没有写权限便可。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/16/NOTES/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/01/10/vsftpd匿名服务器/"/>
 
 
 
 
 
-  <title>NOTES | Finalx's Space</title>
+  <title>vsftpd匿名服务器 | Finalx's Space</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/NOTES/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/10/vsftpd匿名服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="finalx">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NOTES</h1>
+          <h1 class="post-title" itemprop="name headline">vsftpd匿名服务器</h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T11:20:04+08:00">
-                2018-05-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-10T10:39:24+08:00">
+                2019-01-10
               </time>
             
 
@@ -321,9 +321,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/16/NOTES/#comments" itemprop="discussionUrl">
+                <a href="/2019/01/10/vsftpd匿名服务器/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/16/NOTES/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/01/10/vsftpd匿名服务器/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -351,41 +351,20 @@
       
 
       
-        <h1 id="SYNC-amp-amp-BUILD"><a href="#SYNC-amp-amp-BUILD" class="headerlink" title="SYNC &amp;&amp; BUILD"></a>SYNC &amp;&amp; BUILD</h1><h2 id="newest-APPs"><a href="#newest-APPs" class="headerlink" title="newest APPs"></a>newest APPs</h2><ul>
-<li><p>C51 e0001h</p>
-<blockquote>
-<p>10.10.96.210:/work/build/workspace/PRJ_BJEV_6.0/packages/apps</p>
-</blockquote>
-</li>
-<li><p>C53 c3004h</p>
-<blockquote>
-<p>10.10.96.219:/work/jenkins/workspace/PRJ_C3004H_6.0/packages/apps</p>
-</blockquote>
-</li>
-<li><p>x37 f0307h</p>
-<blockquote>
-<p>10.10.96.219:/work/build/workspace/PRJ_F0307H_6.0/packages/apps/</p>
-</blockquote>
-</li>
+        <ul>
+<li>匿名用户就是ftp，想要匿名用户写入，必须文件夹的权限为ftp可写。</li>
+<li>匿名用户的根目录不允许写，所以根目录的权限绝对不能是ftp可写和其他用户可写，如果根目录所有者为ftp的话，所有者的权限也不能写。</li>
 </ul>
-<hr>
+<p>所以解决方法是建个单独的public文件夹用于上传文件，设置其为ftp可写或”其他用户可写“</p>
+<p>还可建个download文件夹只用于下载，设置其他用户没有写权限便可。</p>
 <a id="more"></a>
-<h2 id="Sync-codes"><a href="#Sync-codes" class="headerlink" title="Sync codes"></a>Sync codes</h2><ul>
-<li><p>e0001h/c3004h/f0307h</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repo init -u ssh://XXXX@10.10.96.212:29418/projects/DLS-Auto-Marshmallow/platform/manifest.git -b e0001h/jupiter/jupiter_f0307h</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>g0003ah-qos</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repo init -u ssh://XXXX@10.10.96.214:29418/projects/DLS-Auto-F6-4.4/platform/manifest.git -b g0003ah-qos</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>c62</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">repo init -u ssh://XXXX@10.10.96.212:29418/projects/DLS-Auto-8.1/platform/manifest --depth=1 -b master</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">ln -s make/CleanSpec.mk .</span><br><span class="line">ln -s make/buildspec.mk.default .</span><br><span class="line">ln -s make/core .</span><br><span class="line">ln -s make/envsetup.sh .</span><br><span class="line">ln -s make/target .</span><br><span class="line">ln -s make/tools .</span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">ln -s build/soong/bootstrap.bash </span><br><span class="line">ln -s build/soong/root.bp Android.bp</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h1 id="SPLIT-LOGS"><a href="#SPLIT-LOGS" class="headerlink" title="SPLIT LOGS"></a>SPLIT LOGS</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat $(ls logcat.log* | sort -r) | csplit - <span class="string">"/Vold 3.0 (the awakening) firing up/"</span> -n3 &#123;*&#125;  -f splited -b <span class="string">"%03d.log"</span></span><br></pre></td></tr></table></figure>
-<hr>
-<h1 id="Flash-without-screen"><a href="#Flash-without-screen" class="headerlink" title="Flash without screen"></a>Flash without screen</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'--update_package=/udisk/update/update.zip'</span> &gt; /cache/recovery/<span class="built_in">command</span>; sleep 1; minirecovery 30; sleep 1; reboot</span><br></pre></td></tr></table></figure>
-
+<p>假设要设定 /path/to/ws 为匿名用户的根目录, vsftpd有如下权限要求</p>
+<pre><code>ws                #drwxr-xr-x 3 root root  根目录不能有任何用户可写(root除外)
+└── public    #drwxrwxrwx 2 ftp ftp  作为上传目录，必须要给ftp用户写权限, 干脆就777了
+</code></pre><p>配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#FTP处于独立启动模式</span></span><br><span class="line">listen=YES</span><br><span class="line">listen_port=2121</span><br><span class="line">anonymous_enable=YES</span><br><span class="line"><span class="comment">#是否允许本地用户访问</span></span><br><span class="line">local_enable=YES</span><br><span class="line"><span class="comment">#允许本地用户访问时,是否允许他们有写入的权限</span></span><br><span class="line">write_enable=YES</span><br><span class="line"><span class="comment">#本地用户新文件的umask (file:644 dir:755)</span></span><br><span class="line">local_umask=022</span><br><span class="line"><span class="comment">#anonymous的</span></span><br><span class="line">anon_umask=022</span><br><span class="line">anon_upload_enable=YES</span><br><span class="line">anon_mkdir_write_enable=YES</span><br><span class="line">anon_world_readable_only=NO</span><br><span class="line"><span class="comment">#允许删除?</span></span><br><span class="line"><span class="comment">#anon_other_write_enable=YES</span></span><br><span class="line">anon_root=/path/to/ws</span><br><span class="line"><span class="comment">#使用者进入某个目录时是否显示由message_file指定的文件内容</span></span><br><span class="line"></span><br><span class="line">dirmessage_enable=YES</span><br><span class="line">pasv_min_port=40000</span><br><span class="line">pasv_max_port=50000</span><br></pre></td></tr></table></figure></p>
+<p>另外配置文件本身权限也有要求(man vsftpd)：</p>
+<pre><code>An optional configuration file or files may be given on the command line. These files must be owned as root if running as root.
+</code></pre>
       
     </div>
     
@@ -402,7 +381,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/" rel="tag"># test</a>
+            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          
+            <a href="/tags/vsftpd/" rel="tag"># vsftpd</a>
           
         </div>
       
@@ -415,8 +396,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/30/Android中的GraphicBuffer同步机制-Fence/" rel="next" title="Android中的GraphicBuffer同步机制-Fence">
-                <i class="fa fa-chevron-left"></i> Android中的GraphicBuffer同步机制-Fence
+              <a href="/2019/01/04/GDB-on-android/" rel="next" title="GDB on android">
+                <i class="fa fa-chevron-left"></i> GDB on android
               </a>
             
           </div>
@@ -424,10 +405,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/25/从4行代码看右值引用/" rel="prev" title="从4行代码看右值引用">
-                从4行代码看右值引用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -489,17 +466,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -563,22 +531,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SYNC-amp-amp-BUILD"><span class="nav-number">1.</span> <span class="nav-text">SYNC &amp;&amp; BUILD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#newest-APPs"><span class="nav-number">1.1.</span> <span class="nav-text">newest APPs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sync-codes"><span class="nav-number">1.2.</span> <span class="nav-text">Sync codes</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPLIT-LOGS"><span class="nav-number">2.</span> <span class="nav-text">SPLIT LOGS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flash-without-screen"><span class="nav-number">3.</span> <span class="nav-text">Flash without screen</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -739,9 +691,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/05/16/NOTES/';
-          this.page.identifier = '2018/05/16/NOTES/';
-          this.page.title = 'NOTES';
+          this.page.url = 'http://yoursite.com/2019/01/10/vsftpd匿名服务器/';
+          this.page.identifier = '2019/01/10/vsftpd匿名服务器/';
+          this.page.title = 'vsftpd匿名服务器';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://finalx.disqus.com/embed.js';
