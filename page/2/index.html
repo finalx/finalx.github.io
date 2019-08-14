@@ -269,6 +269,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/Android中的GraphicBuffer同步机制-Fence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="finalx">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Finalx's Space">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/30/Android中的GraphicBuffer同步机制-Fence/" itemprop="url">Android中的GraphicBuffer同步机制-Fence</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-30T11:25:09+08:00">
+                2017-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Graphics/" itemprop="url" rel="index">
+                    <span itemprop="name">Graphics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/30/Android中的GraphicBuffer同步机制-Fence/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/30/Android中的GraphicBuffer同步机制-Fence/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>转载自 <a href="http://blog.csdn.net/jinzhuojun/article/details/39698317" target="_blank" rel="noopener">http://blog.csdn.net/jinzhuojun/article/details/39698317</a></em><br><em>转载自<a href="http://blog.csdn.net/ear5cm/article/details/45093807" target="_blank" rel="noopener">http://blog.csdn.net/ear5cm/article/details/45093807</a></em><br><em>Edited: 增加了fence的翻译 <a href="http://netaz.blogspot.com/2013/10/android-fences-introduction-in-any.html" target="_blank" rel="noopener">android-fences-introduction</a></em></p>
+<h1 id="Fence在Graphics中的应用"><a href="#Fence在Graphics中的应用" class="headerlink" title="Fence在Graphics中的应用"></a>Fence在Graphics中的应用</h1><p>Fence是一种同步机制，在Android里主要用于图形系统中GraphicBuffer的同步。 那它和已有同步机制相比有什么特点呢？</p>
+<p>它主要被用来处理跨硬件的情况，尤其是CPU，GPU和HWC之间的同步，另外它还可以用于多个时间点之间的同步。<br>GPU编程和纯CPU编程一个很大的不同是它是异步的，也就是说当我们调用GL command返回时这条命令并不一定完成了，只是把这个命令放在本地的command buffer里。具体什么时候这条GL command被真正执行完毕CPU是不知道的，除非CPU使用glFinish()等待这些命令执行完，另外一种方法就是基于同步对象的Fence机制。下面举个生产者把GraphicBuffer交给消费者的例子。 </p>
+<p>如生产者是App中的renderer，消费者是SurfaceFlinger。GraphicBuffer的队列放在缓冲队列BufferQueue中。BufferQueue对App端的接口为IGraphicBufferProducer，实现类为Surface，对SurfaceFlinger端的接口为IGraphicBufferConsumer，实现类为SurfaceFlingerConsumer。BufferQueue中对每个GraphiBuffer都有BufferState标记着它的状态：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/30/Android中的GraphicBuffer同步机制-Fence/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/29/Install-JDK1-8-Tomcat8-Opengrok-for-Ubuntu-14-04/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1044,7 +1214,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
