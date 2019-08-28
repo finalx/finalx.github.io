@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="test,">
+  <meta name="keywords" content="Ubuntu,Opengrok,Tomcat,">
 
 
 
@@ -79,18 +79,24 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta name="keywords" content="test">
+<meta name="description" content="Is it possible to have too much security while running your own app? Nowadays, applications are a common target of potential attacks and vulnerabilities. As a result, having the ability to restrict ac">
+<meta name="keywords" content="Ubuntu,Opengrok,Tomcat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="First测试">
-<meta property="og:url" content="http://yoursite.com/2017/09/04/First测试/index.html">
+<meta property="og:title" content="Secure Tomcat Hosting: Restrict Access to Your Web Application">
+<meta property="og:url" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/index.html">
 <meta property="og:site_name" content="Finalx&#39;s Space">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Is it possible to have too much security while running your own app? Nowadays, applications are a common target of potential attacks and vulnerabilities. As a result, having the ability to restrict ac">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-05T07:34:54.000Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/user-authentication-for-accessing-your-tomcat-based-web-application.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/specify-the-security-constraint-for-the-newly-created-user.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/authentication-form-to-access-the-application.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/set-access-deny-to-web-application-for-certain-client-IP-addresses.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/HTTP-Status-403-for-denied-IP-address.png">
+<meta property="og:updated_time" content="2019-08-28T04:19:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="First测试">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Secure Tomcat Hosting: Restrict Access to Your Web Application">
+<meta name="twitter:description" content="Is it possible to have too much security while running your own app? Nowadays, applications are a common target of potential attacks and vulnerabilities. As a result, having the ability to restrict ac">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/user-authentication-for-accessing-your-tomcat-based-web-application.png">
 
 
 
@@ -120,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/04/First测试/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/">
 
 
 
 
 
-  <title>First测试 | Finalx's Space</title>
+  <title>Secure Tomcat Hosting: Restrict Access to Your Web Application | Finalx's Space</title>
   
 
 
@@ -273,7 +279,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/04/First测试/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="finalx">
@@ -290,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">First测试</h1>
+          <h1 class="post-title" itemprop="name headline">Secure Tomcat Hosting: Restrict Access to Your Web Application</h1>
         
 
         <div class="post-meta">
@@ -302,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-04T20:16:01+08:00">
-                2017-09-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T12:19:18+08:00">
+                2019-08-28
               </time>
             
 
@@ -321,8 +327,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/04/First测试/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/04/First测试/" itemprop="commentCount"></span>
+                <a href="/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -350,22 +356,56 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+        <p>Is it possible to have too much security while running your own app? Nowadays, applications are a common target of potential attacks and vulnerabilities. As a result, having the ability to restrict access to your application is critical for your business.</p>
+<p>In this article we will guide how to protect your application running on a Tomcat server in Jelastic. We recommend two possible solutions on how to restrict access to your application (you can choose one of them or use both):</p>
 <a id="more"></a>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<ul>
+<li>requesting the user authentication</li>
+<li>denying the access for specified IP addresses</li>
+</ul>
+<p>With the authentication settings, you can specify several users and provide them different levels of access by stating the roles. And, if you’re aware of harmful actions targeted to your app from specific IP addresses – simply restrict access per abuser.</p>
+<p>Let’s get started and share the required configurations step-by-step.</p>
 <hr>
-<h2 id="Documents-摘抄"><a href="#Documents-摘抄" class="headerlink" title="Documents 摘抄"></a>Documents 摘抄</h2><p><a href="https://hexo.io/zh-cn/docs/asset-folders.html#相对路径引用的标签插件" target="_blank" rel="noopener">相对路径引用的标签插件</a></p>
-<p>通过常规的 markdown 语法和相对路径来引用图片和其它资源可能会导致它们在存档页或者主页上显示不正确。在Hexo 2时代，社区创建了很多插件来解决这个问题。但是，随着Hexo 3 的发布，许多新的标签插件被加入到了核心代码中。这使得你可以更简单地在文章中引用你的资源。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_path slug %&#125;</span><br><span class="line">&#123;% asset_img slug [title] %&#125;</span><br><span class="line">&#123;% asset_link slug [title] %&#125;</span><br></pre></td></tr></table></figure></p>
-<p>比如说：当你打开文章资源文件夹功能后，你把一个 example.jpg 图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法<br><code>![](/example.jpg)</code><br>，它将 不会 出现在首页上。（但是它会在文章中按你期待的方式工作）</p>
-<p>正确的引用图片方式是使用下列的标签插件而不是 markdown ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img example.jpg This is an example image %&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过这种方式，图片将会同时出现在文章和主页以及归档页中。</p>
+<h1 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h1><p>To request the user authentication for accessing your Tomcat-based web application, perform the following actions:</p>
+<ul>
+<li><p>Navigate to the environment where your application is deployed. Click the Config button for your Tomcat server.</p>
+</li>
+<li><p>Open the opt/tomcat/conf/ folder and select the tomcat-users.xml file.</p>
+</li>
+<li><p>Add new users with the required credentials and roles. Save the changes.</p>
+</li>
+</ul>
+<p>For example:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"test"</span> <span class="attr">password</span>=<span class="string">"test"</span> <span class="attr">roles</span>=<span class="string">"admin"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"test1"</span> <span class="attr">password</span>=<span class="string">"test1"</span> <span class="attr">roles</span>=<span class="string">"user"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="user-authentication-for-accessing-your-tomcat-based-web-application.png" alt></p>
+<ul>
+<li>Go to the web.xml file within the same folder and specify the security constraint for the newly created user.</li>
+</ul>
+<p><strong>注意这个是对全局生效的, 而tomcat的url-pattern是相对于application context的路径, 所以如果要对某个app生效, 应该修改对应app下的web.xml</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">security-constraint</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">web-resource-collection</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">web-resource-collection</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">auth-constraint</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">role-name</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">role-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">role-name</span>&gt;</span>user<span class="tag">&lt;/<span class="name">role-name</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">auth-constraint</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">security-constraint</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">login-config</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">auth-method</span>&gt;</span>BASIC<span class="tag">&lt;/<span class="name">auth-method</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">realm-name</span>&gt;</span>Test Realm<span class="tag">&lt;/<span class="name">realm-name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">login-config</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="specify-the-security-constraint-for-the-newly-created-user.png" alt></p>
+<ul>
+<li>Save the changes and Restart your Tomcat server.</li>
+</ul>
+<p>As a result, while accessing the application, a user will be requested to authenticate. </p>
+<p><img src="authentication-form-to-access-the-application.png" alt></p>
+<hr>
+<h1 id="Client-IP-Address-Access-Deny"><a href="#Client-IP-Address-Access-Deny" class="headerlink" title="Client IP Address Access Deny"></a>Client IP Address Access Deny</h1><p>In order to set the access deny to your web-application for the certain client IP addresses perform the following:</p>
+<ul>
+<li><p>Navigate to the environment with your application deployed. Press Config button for the Tomcat server.</p>
+</li>
+<li><p>Go to the /opt/tomcat/webapps/ROOT/META-INF folder and open the context.xml file.</p>
+</li>
+<li><p>Add the following strings to the context.xml file as shown below:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">antiJARLocking</span>=<span class="string">"true"</span> <span class="attr">path</span>=<span class="string">"/"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteIpValve"</span> /&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteAddrValve"</span> <span class="attr">deny</span>=<span class="string">"&#123;IP_address&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="set-access-deny-to-web-application-for-certain-client-IP-addresses.png" alt></p>
+<p><em>Note: If there is no context.xml file in your /opt/tomcat/webapps/ROOT/META-INF folder, you need to create it, add all the above-mentioned strings and restart your Tomcat server for the changes to be applied.</em></p>
+<ul>
+<li>Save the changes and Restart your Tomcat server.</li>
+</ul>
+<p>Subsequently, the user with the denied IP address will see the HTTP Status 403 while trying to access your application. </p>
+<p><img src="HTTP-Status-403-for-denied-IP-address.png" alt></p>
+<p><em>By Tetiana Fydorenchyk | April 19, 2018<br><a href="https://jelastic.com/blog/restrict-access-tomcat-web-application-hosting/" target="_blank" rel="noopener">https://jelastic.com/blog/restrict-access-tomcat-web-application-hosting/</a></em></p>
 
       
     </div>
@@ -383,7 +423,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/" rel="tag"># test</a>
+            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          
+            <a href="/tags/Opengrok/" rel="tag"># Opengrok</a>
+          
+            <a href="/tags/Tomcat/" rel="tag"># Tomcat</a>
           
         </div>
       
@@ -396,15 +440,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/08/14/CPP中多线程与Singleton的那些事儿/" rel="next" title="CPP中多线程与Singleton的那些事儿">
+                <i class="fa fa-chevron-left"></i> CPP中多线程与Singleton的那些事儿
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/08/Finalx-s-blog-部署/" rel="prev" title="Finalx's blog 部署">
-                Finalx's blog 部署 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -548,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Documents-摘抄"><span class="nav-number">2.</span> <span class="nav-text">Documents 摘抄</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Authentication"><span class="nav-number">1.</span> <span class="nav-text">Authentication</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Client-IP-Address-Access-Deny"><span class="nav-number">2.</span> <span class="nav-text">Client IP Address Access Deny</span></a></li></ol></div>
             
 
           </div>
@@ -714,9 +758,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/09/04/First测试/';
-          this.page.identifier = '2017/09/04/First测试/';
-          this.page.title = 'First测试';
+          this.page.url = 'http://yoursite.com/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/';
+          this.page.identifier = '2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/';
+          this.page.title = 'Secure Tomcat Hosting: Restrict Access to Your Web Application';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://finalx.disqus.com/embed.js';
