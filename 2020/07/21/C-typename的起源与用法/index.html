@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="C++,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="侯捷在Effective C++的中文版译序中提到: C++的难学，还在于它提供了四种不同（但相辅相成）的程序设计思维模式：procedural-based, object-based, object-oriented, generics 对于较少使用最后一种泛型编程的我来说，程序设计基本上停留在前三种思维模式当中。虽说不得窥见高深又现代的泛型技术，但前三种思维模式已几乎满足我所遇到的所有需求，因">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ typename的起源与用法">
+<meta property="og:url" content="http://yoursite.com/2020/07/21/C-typename的起源与用法/index.html">
+<meta property="og:site_name" content="Finalx&#39;s Space">
+<meta property="og:description" content="侯捷在Effective C++的中文版译序中提到: C++的难学，还在于它提供了四种不同（但相辅相成）的程序设计思维模式：procedural-based, object-based, object-oriented, generics 对于较少使用最后一种泛型编程的我来说，程序设计基本上停留在前三种思维模式当中。虽说不得窥见高深又现代的泛型技术，但前三种思维模式已几乎满足我所遇到的所有需求，因">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-21T11:47:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ typename的起源与用法">
+<meta name="twitter:description" content="侯捷在Effective C++的中文版译序中提到: C++的难学，还在于它提供了四种不同（但相辅相成）的程序设计思维模式：procedural-based, object-based, object-oriented, generics 对于较少使用最后一种泛型编程的我来说，程序设计基本上停留在前三种思维模式当中。虽说不得窥见高深又现代的泛型技术，但前三种思维模式已几乎满足我所遇到的所有需求，因">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/21/C-typename的起源与用法/">
+
+
+
+
+
+  <title>C++ typename的起源与用法 | Finalx's Space</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Finalx's Space</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/21/C-typename的起源与用法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="finalx">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Finalx's Space">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++ typename的起源与用法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-21T19:47:03+08:00">
+                2020-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/21/C-typename的起源与用法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/21/C-typename的起源与用法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>侯捷在Effective C++的中文版译序中提到:</p>
+<p>C++的难学，还在于它提供了四种不同（但相辅相成）的程序设计思维模式：procedural-based, object-based, object-oriented, generics</p>
+<p>对于较少使用最后一种泛型编程的我来说，程序设计基本上停留在前三种思维模式当中。虽说不得窥见高深又现代的泛型技术，但前三种思维模式已几乎满足我所遇到的所有需求，因此一直未曾深入去了解泛型编程。<br><a id="more"></a></p>
+<hr>
+<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>近日，看到这样一行代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">typename</span> __type_traits&lt;T&gt;::has_trivial_destructor trivial_destructor;</span><br></pre></td></tr></table></figure>
+<p>虽说已经有多年C++经验，但上面这短短一行代码却看得我头皮发麻。看起来它应该是定义一个类型别名，但是typedef不应该是像这样使用么，typedef+原类型名+新类型名：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span>* PCHAR;</span><br></pre></td></tr></table></figure>
+<p>可为何此处多了一个typename？另外<strong>type_traits又是什么？看起来有些眼熟，想起之前在Effective C++上曾经看过traits这一技术的介绍，和这里的</strong>type_traits有点像。只是一直未曾遇到需要traits的时候，所以当时并未仔细研究。然而STL中大量的充斥着各种各样的traits，一查才发现原来它是一种非常高级的技术，在更现的高级语言中已经很普遍。因此这次花了些时间去学习它，接下来还有会有另一篇文章来详细介绍C++的traits技术。在这里，我们暂时忘记它，仅将它当成一个普通的类，先来探讨一下这个多出来的typename是怎么回事？</p>
+<h1 id="typename的常见用法"><a href="#typename的常见用法" class="headerlink" title="typename的常见用法"></a>typename的常见用法</h1><p>对于typename这个关键字，如果你熟悉C++的模板，一定会知道它有这样一种最常见的用法(代码摘自C++ Primer)：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// implement strcmp-like generic compare function</span></span><br><span class="line"><span class="comment">// returns 0 if the values are equal, 1 if v1 is larger, -1 if v1 is smaller</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">const</span> T &amp;v1, <span class="keyword">const</span> T &amp;v2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (v1 &lt; v2) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (v2 &lt; v1) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也许你会想到上面这段代码中的typename换成class也一样可以，不错！那么这里便有了疑问，这两种方式有区别么？查看C++ Primer之后，发现两者完全一样。那么为什么C++要同时支持这两种方式呢？既然class很早就已经有了，为什么还要引入typename这一关键字呢？问的好，这里面有一段鲜为人知的历史（也许只是我不知道:-)）。带着这些疑问，我们开始探寻之旅。</p>
+<h1 id="typename的来源"><a href="#typename的来源" class="headerlink" title="typename的来源"></a>typename的来源</h1><p>对于一些更早接触C++的朋友，你可能知道，在C++标准还未统一时，很多旧的编译器只支持class，因为那时C++并没有typename关键字。记得我在学习C++时就曾在某本C++书籍上看过类似的注意事项，告诉我们如果使用typename时编译器报错的话，那么换成class即可。</p>
+<p>一切归结于历史。</p>
+<p>Stroustrup在最初起草模板规范时，他曾考虑到为模板的类型参数引入一个新的关键字，但是这样做很可能会破坏已经写好的很多程序（因为class已经使用了很长一段时间）。但是更重要的原因是，在当时看来，class已完全足够胜任模板的这一需求，因此，为了避免引起不必要的麻烦，他选择了妥协，重用已有的class关键字。所以只到ISO C++标准出来之前，想要指定模板的类型参数只有一种方法，那便是使用class。这也解释了为什么很多旧的编译器只支持class。</p>
+<p>但是对很多人来说，总是不习惯class，因为从其本来存在的目的来说，是为了区别于语言的内置类型，用于声明一个用户自定义类型。那么对于下面这个模板函数的定义（相对于上例，仅将typename换成了class）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">compare</span>(<span class="title">const</span> <span class="title">T</span> &amp;<span class="title">v1</span>, <span class="title">const</span> <span class="title">T</span> &amp;<span class="title">v2</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">if</span> (v1 &lt; v2) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (v2 &lt; v1) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从表面上看起来就好像这个模板的参数应该只支持用户自定义类型，所以使用语言内置类型或者指针来调用该模板函数时总会觉得有一丝奇怪（虽然并没有错误）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> v1 = <span class="number">1</span>, v2 = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> ret = compare(v1, v2);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> *pv1 = <span class="literal">NULL</span>, *pv2 = <span class="literal">NULL</span>;</span><br><span class="line">ret = compare(pv1, pv2);</span><br></pre></td></tr></table></figure></p>
+<p>令人感到奇怪的原因是，class在类和模板中表现的意义看起来存在一些不一致，前者针对用户自定义类型，而后者包含了语言内置类型和指针。也正因为如此，人们似乎觉得当时没有引入一个新的关键字可能是一个错误。</p>
+<p>这是促使标准委员会引入新关键字的一个因素，但其实还有另外一个更加重要的原因，和文章最开始那行代码相关。</p>
+<h1 id="一些关键概念"><a href="#一些关键概念" class="headerlink" title="一些关键概念"></a>一些关键概念</h1><p>在我们揭开真实原因的面纱之前，先保持一点神秘感，因为为了更好的理解C++标准，有几个重要的概念需要先行介绍一下。</p>
+<h2 id="限定名和非限定名"><a href="#限定名和非限定名" class="headerlink" title="限定名和非限定名"></a>限定名和非限定名</h2><p>限定名(qualified name)，故名思义，是限定了命名空间的名称。看下面这段代码，cout和endl就是限定名：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello world!"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>cout和endl前面都有std::，它限定了std这个命名空间，因此称其为限定名。</p>
+<p>如果在上面这段代码中，前面用using std::cout;或者using namespace std;，然后使用时只用cout和endl，它们的前面不再有空间限定std::，所以此时的cout和endl就叫做非限定名(unqualified name)。</p>
+<h2 id="依赖名和非依赖名"><a href="#依赖名和非依赖名" class="headerlink" title="依赖名和非依赖名"></a>依赖名和非依赖名</h2><p>依赖名(dependent name)是指依赖于模板参数的名称，而非依赖名(non-dependent name)则相反，指不依赖于模板参数的名称。看下面这段代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">MyClass</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vi;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator vitr;</span><br><span class="line"></span><br><span class="line">    T t;</span><br><span class="line">    <span class="built_in">vector</span>&lt;T&gt; vt;</span><br><span class="line">    <span class="built_in">vector</span>&lt;T&gt;::iterator viter;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>因为是内置类型，所以类中前三个定义的类型在声明这个模板类时就已知。然而对于接下来的三行定义，只有在模板实例化时才能知道它们的类型，因为它们都依赖于模板参数T。因此，T, vector<t>和vector<t>::iterator称为依赖名。前三个定义叫做非依赖名。</t></t></p>
+<p>更为复杂一点，如果用了typedef T U; U u;，虽然T没再出现，但是U仍然是依赖名。由此可见，不管是直接还是间接，只要依赖于模板参数，该名称就是依赖名。</p>
+<h2 id="类作用域"><a href="#类作用域" class="headerlink" title="类作用域"></a>类作用域</h2><p>在类外部访问类中的名称时，可以使用类作用域操作符，形如MyClass::name的调用通常存在三种：静态数据成员、静态成员函数和嵌套类型：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyClass</span> &#123;</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> A;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">B</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">int</span> C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MyClass::A, MyClass::B, MyClass::C分别对应着上面三种。</p>
+<h1 id="引入typename的真实原因"><a href="#引入typename的真实原因" class="headerlink" title="引入typename的真实原因"></a>引入typename的真实原因</h1><p>结束以上三个概念的讨论，让我们接着揭开typename的神秘面纱。</p>
+<h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><p>在Stroustrup起草了最初的模板规范之后，人们更加无忧无虑的使用了class很长一段时间。可是，随着标准化C++工作的到来，人们发现了模板这样一种定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">foo</span>() &#123;</span></span><br><span class="line">    T::iterator * iter;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的目的是什么？多数人第一反应可能是：作者想定义一个指针iter，它指向的类型是包含在类作用域T中的iterator。可能存在这样一个包含iterator类型的结构：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ContainsAType</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">iterator</span> &#123;</span> <span class="comment">/*...*/</span> &#125;;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后像这样实例化foo：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo&lt;ContainsAType&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>这样一来，iter那行代码就很明显了，它是一个ContainsAType::iterator类型的指针。到目前为止，咱们猜测的一点不错，一切都看起来很美好。</p>
+<h2 id="问题浮现"><a href="#问题浮现" class="headerlink" title="问题浮现"></a>问题浮现</h2><p>在类作用域一节中，我们介绍了三种名称，由于MyClass已经是一个完整的定义，因此编译期它的类型就可以确定下来，也就是说MyClass::A这些名称对于编译器来说也是已知的。</p>
+<p>可是，如果是像T::iterator这样呢？T是模板中的类型参数，它只有等到模板实例化时才会知道是哪种类型，更不用说内部的iterator。通过前面类作用域一节的介绍，我们可以知道，T::iterator实际上可以是以下三种中的任何一种类型：</p>
+<ul>
+<li>静态数据成员</li>
+<li>静态成员函数</li>
+<li>嵌套类型</li>
+</ul>
+<p>前面例子中的ContainsAType::iterator是嵌套类型，完全没有问题。可如果是静态数据成员呢？如果实例化foo模板函数的类型是像这样的：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ContainsAnotherType</span> &#123;</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> iterator;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>然后如此实例化foo的类型参数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo&lt;ContainsAnotherType&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>那么，T::iterator <em> iter;被编译器实例化为ContainsAnotherType::iterator </em> iter;，这是什么？前面是一个静态成员变量而不是类型，那么这便成了一个乘法表达式，只不过iter在这里没有定义，编译器会报错：</p>
+<blockquote>
+<p>error C2065: ‘iter’ : undeclared identifier</p>
+</blockquote>
+<p>但如果iter是一个全局变量，那么这行代码将完全正确，它是表示计算两数相乘的表达式，返回值被抛弃。</p>
+<p>同一行代码能以两种完全不同的方式解释，而且在模板实例化之前，完全没有办法来区分它们，这绝对是滋生各种bug的温床。这时C++标准委员会再也忍不住了，与其到实例化时才能知道到底选择哪种方式来解释以上代码，委员会决定引入一个新的关键字，这就是typename。</p>
+<h2 id="千呼万唤始出来"><a href="#千呼万唤始出来" class="headerlink" title="千呼万唤始出来"></a>千呼万唤始出来</h2><p>我们来看看C++标准：</p>
+<blockquote>
+<p>A name used in a template declaration or definition and that is dependent on a template-parameter is assumed not to name a type unless the applicable name lookup finds a type name or the name is qualified by the keyword typename.</p>
+</blockquote>
+<p>对于用于模板定义的依赖于模板参数的名称，只有在实例化的参数中存在这个类型名，或者这个名称前使用了typename关键字来修饰，编译器才会将该名称当成是类型。除了以上这两种情况，绝不会被当成是类型。</p>
+<p>因此，如果你想直接告诉编译器T::iterator是类型而不是变量，只需用typename修饰：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">foo</span>() &#123;</span></span><br><span class="line">    <span class="keyword">typename</span> T::iterator * iter;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样编译器就可以确定T::iterator是一个类型，而不再需要等到实例化时期才能确定，因此消除了前面提到的歧义。</p>
+<h2 id="不同编译器对错误情况的处理"><a href="#不同编译器对错误情况的处理" class="headerlink" title="不同编译器对错误情况的处理"></a>不同编译器对错误情况的处理</h2><p>但是如果仍然用ContainsAnotherType来实例化foo，前者只有一个叫iterator的静态成员变量，而后者需要的是一个类型，结果会怎样？我在Visual C++ 2010和g++ 4.3.4上分别做了实验，结果如下：</p>
+<p>Visual C++ 2010仍然报告了和前面一样的错误：</p>
+<blockquote>
+<p>error C2065: ‘iter’ : undeclared identifier</p>
+</blockquote>
+<p>虽然我们已经用关键字typename告诉了编译器iterator应该是一个类型，但是用一个定义了iterator变量的结构来实例化模板时，编译器却选择忽略了此关键字。出现错误只是由于iter没有定义。</p>
+<p>再来看看g++如何处理这种情况，它的错误信息如下：</p>
+<blockquote>
+<p>In function ‘void foo() [with T = ContainsAnotherType]’: instantiated from here error: no type named ‘iterator’ in ‘struct ContainsAnotherType’</p>
+</blockquote>
+<p>g++在ContainsAnotherType中没有找到iterator类型，所以直接报错。它并没有尝试以另外一种方式来解释，由此可见，在这点上，g++更加严格，更遵循C++标准。</p>
+<h2 id="使用typename的规则"><a href="#使用typename的规则" class="headerlink" title="使用typename的规则"></a>使用typename的规则</h2><p>最后这个规则看起来有些复杂，可以参考MSDN(<a href="http://msdn.microsoft.com/zh-cn/library/8y88s595.aspx)：" target="_blank" rel="noopener">http://msdn.microsoft.com/zh-cn/library/8y88s595.aspx)：</a></p>
+<ul>
+<li>typename在下面情况下禁止使用：<ul>
+<li>模板定义之外，即typename只能用于模板的定义中</li>
+<li>非限定类型，比如前面介绍过的int，vector<int>之类</int></li>
+<li>基类列表中，比如template <class t> class C1 : T::InnerType不能在T::InnerType前面加typename</class></li>
+<li>构造函数的初始化列表中</li>
+</ul>
+</li>
+<li>如果类型是依赖于模板参数的限定名，那么在它之前必须加typename(除非是基类列表，或者在类的初始化成员列表中)</li>
+<li>其它情况下typename是可选的，也就是说对于一个不是依赖名的限定名，该名称是可选的，例如vector<int> vi;</int></li>
+</ul>
+<h2 id="其它例子"><a href="#其它例子" class="headerlink" title="其它例子"></a>其它例子</h2><p>对于不会引起歧义的情况，仍然需要在前面加typename，比如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">foo</span>() &#123;</span></span><br><span class="line">    <span class="keyword">typename</span> T::iterator iter;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不像前面的T::iterator * iter可能会被当成乘法表达式，这里不会引起歧义，但仍需加typename修饰。</p>
+<p>再看下面这种：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">foo</span>() &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> T::iterator iterator_type;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>是否和文章刚开始的那行令人头皮发麻的代码有些许相似？没错！现在终于可以解开typename之迷了，看到这里，我相信你也一定可以解释那行代码了，我们再看一眼：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">typename</span> __type_traits&lt;T&gt;::has_trivial_destructor trivial_destructor;</span><br></pre></td></tr></table></figure></p>
+<p>它是将__type_traits<t>这个模板类中的has_trivial_destructor嵌套类型定义一个叫做trivial_destructor的别名，清晰明了。</t></p>
+<h2 id="再看常见用法"><a href="#再看常见用法" class="headerlink" title="再看常见用法"></a>再看常见用法</h2><p>既然typename关键字已经存在，而且它也可以用于最常见的指定模板参数，那么为什么不废除class这一用法呢？答案其实也很明显，因为在最终的标准出来之前，所有已存在的书、文章、教学、代码中都是使用的是class，可以想像，如果标准不再支持class，会出现什么情况。</p>
+<p>对于指定模板参数这一用法，虽然class和typename都支持，但就个人而言我还是倾向使用typename多一些，因为我始终过不了class表示用户定义类型这道坎。另外，从语义上来说，typename比class表达的更为清楚。C++ Primer也建议使用typename:</p>
+<blockquote>
+<p>使用关键字typename代替关键字class指定模板类型形参也许更为直观，毕竟，可以使用内置类型（非类类型）作为实际的类型形参，而且，typename更清楚地指明后面的名字是一个类型名。但是，关键字typename是作为标准C++的组成部分加入到C++中的，因此旧的程序更有可能只用关键字class。</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h1><ul>
+<li><a href="http://feihu.me/blog/2014/the-origin-and-usage-of-typename/#typename%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">http://feihu.me/blog/2014/the-origin-and-usage-of-typename/#typename%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95</a></li>
+<li>C++ Primer</li>
+<li>Effective C++</li>
+<li>A Description of the C++ typename keyword</li>
+<li>维基百科typename</li>
+<li>另外关于typename的历史，Stan Lippman写过一篇文章，Stan Lippman何许人，也许你不知道他的名字，但看完这些你一定会发出，“哦，原来是他！”：他是 C++ Primer, Inside the C++ Object Model, Essential C++, C# Primer 等著作的作者，另外他也曾是Visual C++的架构师。</li>
+<li>在StackOverflow上有一个非常深入的回答，感谢@Emer 在本文评论中提供此链接。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/28/Secure-Tomcat-Hosting-Restrict-Access-to-Your-Web-Application/" rel="next" title="Secure Tomcat Hosting: Restrict Access to Your Web Application">
+                <i class="fa fa-chevron-left"></i> Secure Tomcat Hosting: Restrict Access to Your Web Application
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="finalx">
+            
+              <p class="site-author-name" itemprop="name">finalx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#typename的常见用法"><span class="nav-number">2.</span> <span class="nav-text">typename的常见用法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#typename的来源"><span class="nav-number">3.</span> <span class="nav-text">typename的来源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些关键概念"><span class="nav-number">4.</span> <span class="nav-text">一些关键概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#限定名和非限定名"><span class="nav-number">4.1.</span> <span class="nav-text">限定名和非限定名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖名和非依赖名"><span class="nav-number">4.2.</span> <span class="nav-text">依赖名和非依赖名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类作用域"><span class="nav-number">4.3.</span> <span class="nav-text">类作用域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引入typename的真实原因"><span class="nav-number">5.</span> <span class="nav-text">引入typename的真实原因</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子"><span class="nav-number">5.1.</span> <span class="nav-text">一个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题浮现"><span class="nav-number">5.2.</span> <span class="nav-text">问题浮现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#千呼万唤始出来"><span class="nav-number">5.3.</span> <span class="nav-text">千呼万唤始出来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同编译器对错误情况的处理"><span class="nav-number">5.4.</span> <span class="nav-text">不同编译器对错误情况的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用typename的规则"><span class="nav-number">5.5.</span> <span class="nav-text">使用typename的规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它例子"><span class="nav-number">5.6.</span> <span class="nav-text">其它例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再看常见用法"><span class="nav-number">5.7.</span> <span class="nav-text">再看常见用法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">finalx</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://finalx.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2020/07/21/C-typename的起源与用法/';
+          this.page.identifier = '2020/07/21/C-typename的起源与用法/';
+          this.page.title = 'C++ typename的起源与用法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://finalx.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
